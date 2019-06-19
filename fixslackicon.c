@@ -228,6 +228,11 @@ int main(void) {
 
     Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
     XChangeProperty(display, slack, net_wm_icon, XA_CARDINAL, 32, PropModeReplace, (unsigned char *)buf, buflen);
+
+    Atom net_wm_window_type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
+    Atom net_wm_window_type_normal = XInternAtom(display, "_NET_WM_WINDOW_TYPE_NORMAL", False);
+    XChangeProperty(display, slack, net_wm_window_type, XA_CARDINAL, 32, PropModeReplace, (unsigned char *)&net_wm_window_type_normal, 1);
+
     XCloseDisplay(display);
     return 0;
 }
