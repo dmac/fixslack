@@ -7,5 +7,5 @@ This utility fixes some Slack bugs in Xubuntu 18.04:
 
 ```
 make
-./fixslackicon
+./fixslack
 ```
