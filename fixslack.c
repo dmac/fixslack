@@ -100,9 +100,13 @@ int main(void) {
     Atom net_wm_icon = XInternAtom(display, "_NET_WM_ICON", False);
     XChangeProperty(display, slack, net_wm_icon, XA_CARDINAL, 32, PropModeReplace, (unsigned char *)imageData, imageDataLen);
 
-    Atom net_wm_window_type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
-    Atom net_wm_window_type_normal = XInternAtom(display, "_NET_WM_WINDOW_TYPE_NORMAL", False);
-    XChangeProperty(display, slack, net_wm_window_type, XA_CARDINAL, 32, PropModeReplace, (unsigned char *)&net_wm_window_type_normal, 1);
+    // This property change was necessary after Slack introduced a bug that
+    // prevented the window from showing in the Alt+Tab menu. This bug seems to
+    // have been fixed in the latest release.
+    //
+    // Atom net_wm_window_type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
+    // Atom net_wm_window_type_normal = XInternAtom(display, "_NET_WM_WINDOW_TYPE_NORMAL", False);
+    // XChangeProperty(display, slack, net_wm_window_type, XA_CARDINAL, 32, PropModeReplace, (unsigned char *)&net_wm_window_type_normal, 1);
 
     XCloseDisplay(display);
     return 0;
