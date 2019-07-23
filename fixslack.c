@@ -32,20 +32,20 @@ void printIconData(char *filename) {
     stbi_image_free(data);
 }
 
-char *getWindowName(Display *display, Window w) {
+char *getWindowClass(Display *display, Window w) {
     Atom real;
     int format;
     unsigned long n;
     unsigned long extra;
-    unsigned char *xname;
-    int err = XGetWindowProperty(display, w, XA_WM_NAME, 0, ~0, False, AnyPropertyType, &real, &format, &n, &extra, &xname);
+    unsigned char *xclass;
+    int err = XGetWindowProperty(display, w, XA_WM_CLASS, 0, ~0, False, AnyPropertyType, &real, &format, &n, &extra, &xclass);
     if (err != Success || real == None) {
         return NULL;
     }
-    char *name = malloc(strlen((char *)xname) + 1);
-    strcpy(name, (char *)xname);
-    XFree(xname);
-    return name;
+    char *class = malloc(strlen((char *)xclass) + 1);
+    strcpy(class, (char *)xclass);
+    XFree(xclass);
+    return class;
 }
 
 Window findSlackWindow(Display *display, Window w) {
@@ -60,11 +60,11 @@ Window findSlackWindow(Display *display, Window w) {
     }
     for (unsigned int i = 0; i < nchildren; i++) {
         Window child = children[i];
-        char *pre = "Slack -";
-        char *name = getWindowName(display, child);
-        bool found = name && strncmp(pre, name, strlen(pre)) == 0;
-        if (name) {
-            free(name);
+        char *target = "slack";
+        char *class = getWindowClass(display, child);
+        bool found = class && strncmp(target, class, strlen(target)) == 0;
+        if (class) {
+            free(class);
         }
         if (found) {
             return child;
